@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="408dp"
+        android:layout_height="103dp"
+        android:background="@color/navbar_background"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/imageButtonList"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/navbar_background"
+            android:importantForAccessibility="no"
+            app:srcCompat="@drawable/contactlisticon" />
+
+        <ImageButton
+            android:id="@+id/imageButtonMap"
+            android:layout_width="119dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/navbar_background"
+            android:importantForAccessibility="no"
+            app:srcCompat="@drawable/mapsicon" />
+
+        <ImageButton
+            android:id="@+id/imageButtonSettings"
+            android:layout_width="131dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/navbar_background"
+            android:importantForAccessibility="no"
+            app:srcCompat="@drawable/settingsicon" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="411dp"
+        android:layout_height="55dp"
+        android:background="@color/toolbar_background"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ToggleButton
+            android:id="@+id/toggleButton"
+            android:layout_width="19dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_weight="1"
+            android:text="@string/togglebutton" />
+
+        <Button
+            android:id="@+id/ButtonSave"
+            android:layout_width="7dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="16dp"
+            android:layout_weight="1"
+            android:text="@string/save"
+            tools:ignore="RtlHardcoded,VisualLintButtonSize" />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        tools:ignore="SpeakableTextPresentCheck">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textContact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/contact"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/editName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:autofillHints=""
+                android:ems="14"
+                android:hint="@string/contactHint"
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textContact"
+                app:layout_constraintVertical_bias="0.0"
+                tools:ignore="LabelFor,TouchTargetSizeCheck">
+
+                <requestFocus />
+            </EditText>
+
+            <TextView
+                android:id="@+id/textAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/address"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editName"/>
+
+            <EditText
+                android:id="@+id/editAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:autofillHints=""
+                android:ems="16"
+                android:hint="@string/enter_street_address"
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textAddress"
+                tools:ignore="TouchTargetSizeCheck">
+            </EditText>
+
+            <EditText
+                android:id="@+id/editCity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:autofillHints=""
+                android:ems="9"
+                android:hint="@string/city"
+                android:imeOptions="actionNext"
+                android:inputType="textCapWords"
+                android:nextFocusDown="@+id/editState"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editAddress"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <EditText
+                android:id="@+id/editState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="8dp"
+                android:autofillHints=""
+                android:ems="2"
+                android:hint="@string/state"
+                android:imeOptions="actionNext"
+                android:inputType="textCapWords"
+                android:maxLength="2"
+                android:nextFocusDown="@+id/editZipCode"
+                app:layout_constraintStart_toEndOf="@+id/editCity"
+                app:layout_constraintTop_toBottomOf="@+id/editAddress"
+                tools:ignore="TouchTargetSizeCheck">
+
+            </EditText>
+
+            <EditText
+                android:id="@+id/editZipCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="8dp"
+                android:autofillHints=""
+                android:ems="5"
+                android:hint="@string/zipcode"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:maxLength="5"
+                android:nextFocusDown="@+id/editHome"
+                app:layout_constraintStart_toEndOf="@+id/editState"
+                app:layout_constraintTop_toBottomOf="@+id/editAddress"
+                tools:ignore="TouchTargetSizeCheck">
+            </EditText>
+
+            <TextView
+                android:id="@+id/textHome"
+                android:text="@string/home_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editCity">
+            </TextView>
+
+            <EditText
+                android:id="@+id/editHome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:autofillHints=""
+                android:ems="8"
+                android:imeOptions="actionNext"
+                android:inputType="phone"
+                android:maxLength="14"
+                android:nextFocusDown="@+id/editCell"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textCell"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck">
+
+            </EditText>
+
+            <TextView
+                android:id="@+id/textCell"
+                android:text="@string/cell_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toEndOf="@+id/editHome"
+                app:layout_constraintTop_toBottomOf="@+id/editCity">
+            </TextView>
+
+            <EditText
+                android:id="@+id/editCell"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:autofillHints=""
+                android:ems="8"
+                android:imeOptions="actionNext"
+                android:inputType="phone"
+                android:maxLength="14"
+                android:nextFocusDown="@+id/editEMail"
+                app:layout_constraintStart_toStartOf="@+id/textCell"
+                app:layout_constraintTop_toBottomOf="@+id/textCell"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck">
+            </EditText>
+
+            <TextView
+                android:id="@+id/textEMail"
+                android:text="@string/email_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editHome" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/editEMail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:ems="16"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textEMail"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck">
+            </EditText>
+
+            <TextView
+                android:id="@+id/textBday"
+                android:text="@string/birthday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editEMail" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/textBirthday"
+                android:text="@string/_01_01_1970"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintStart_toEndOf="@+id/textBday"
+                app:layout_constraintTop_toBottomOf="@+id/editEMail" >
+            </TextView>
+
+            <Button
+                android:id="@+id/btnBirthday"
+                android:text="@string/change"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="60dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textBirthday" >
+            </Button>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
