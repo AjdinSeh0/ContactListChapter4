@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import androidx.activity.EdgeToEdge;
@@ -13,8 +14,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.FragmentManager;
 
-public class MainActivity extends AppCompatActivity {
+import android.text.format.*;
+import java.util.Calendar;
+
+public class MainActivity extends AppCompatActivity implements DatePickerDialog.SaveDateListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +35,9 @@ public class MainActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+
         });
+        initChangeDateButton();
     }
 
     private void initListButton(){
@@ -96,9 +103,26 @@ public class MainActivity extends AppCompatActivity {
             editName.requestFocus();
         }
 
-
-
-
     }
+
+    private void initChangeDateButton() {
+        Button changeDate = findViewById(R.id.btnBirthday);
+        changeDate.setOnClickListener(v -> {
+            FragmentManager fm = getSupportFragmentManager();
+            DatePickerDialog datePickerDialog = new DatePickerDialog();
+            datePickerDialog.show(fm, "DatePick");
+        });
+    }
+
+
+    @Override
+    public void didFinishDatePickerDialog(Calendar selectedTime) {
+        TextView birthDay = findViewById(R.id.textBirthday);
+        birthDay.setText(DateFormat.format("MM/dd/yyyy", selectedTime));
+    }
+
+
+
+
 
 }
