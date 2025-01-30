@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         });
     }
 
+
     private void initMapButton(){
         ImageButton ibList = findViewById(R.id.imageButtonMap);
         ibList.setOnClickListener(v -> {
