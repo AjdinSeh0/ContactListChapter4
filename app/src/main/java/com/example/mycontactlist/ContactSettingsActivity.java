@@ -28,6 +28,10 @@ public class ContactSettingsActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        initSortOrderClick();
+        initSettings();
+        initSortByClick();
+
     }
 
     private void initListButton(){
@@ -67,7 +71,7 @@ public class ContactSettingsActivity extends AppCompatActivity {
             rbName.setChecked(true);
         }
         else if (sortBy.equalsIgnoreCase("city")){
-            rbName.setChecked(true);
+            rbCity.setChecked(true);
         }
         else {
             rbBirthday.setChecked(true);
@@ -115,6 +119,17 @@ public class ContactSettingsActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
 
+                RadioButton rbAscending = findViewById(R.id.radioAscending);
+                if (rbAscending.isChecked()){
+                    getSharedPreferences("MyContactListPreferences",
+                            Context.MODE_PRIVATE).edit()
+                            .putString("sortorder", "ASC").apply();
+                }
+                else{
+                    getSharedPreferences("MyContactListPreferences",
+                            Context.MODE_PRIVATE).edit()
+                            .putString("sortorder", "DESC").apply();
+                }
             }
         });
     }
