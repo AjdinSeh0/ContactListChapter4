@@ -1,8 +1,10 @@
 package com.example.mycontactlist;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,13 +48,40 @@ public class ContactSettingsActivity extends AppCompatActivity {
     }
 
     private void initSettingsButton(){
-        ImageButton ibList = findViewById(R.id.imageButtonSettings);
-        ibList.setOnClickListener(v -> {
-            Intent intent = new Intent(ContactSettingsActivity.this, ContactSettingsActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-        });
+        ImageButton ibSettings = findViewById(R.id.imageButtonSettings);
+        ibSettings.setEnabled(false);
+        };
+
+    private void initSettings() {
+        String sortBy = getSharedPreferences("MyContactListPreferences",
+                Context.MODE_PRIVATE).getString("sortfield", "contactname");
+        String sortOrder = getSharedPreferences("MyContactListPreferences",
+                Context.MODE_PRIVATE).getString("sortorder", "ASC");
+
+        RadioButton rbName = findViewById(R.id.radioName);
+        RadioButton rbCity = findViewById(R.id.radioCity);
+        RadioButton rbBirthday = findViewById(R.id.radioBirthday);
+
+        if (sortBy.equalsIgnoreCase("contactname")){
+            rbName.setChecked(true);
+        }
+        else if (sortBy.equalsIgnoreCase("city")){
+            rbName.setChecked(true);
+        }
+        else {
+            rbBirthday.setChecked(true);
+        }
+
+        RadioButton rbAscending = findViewById(R.id.radioAscending);
+        RadioButton rbDescending = findViewById(R.id.radioDescending);
+        if (sortOrder.equalsIgnoreCase("ASC")){
+            rbAscending.setChecked(true);
+        }
+        else{
+            rbDescending.setChecked(true);
+        }
     }
+
 
 
 }

@@ -19,4 +19,11 @@
     <string name="change">Change</string>
     <string name="cancel">Cancel</string>
     <string name="select">Select</string>
+    <string name="descending">Descending</string>
+    <string name="ascending">Ascending</string>
+    <string name="sort_order">Sort Order:</string>
+    <string name="birthdayText">Birthday</string>
+    <string name="cityRadioText">City</string>
+    <string name="nameRadioText">Name</string>
+    <string name="sort_contacts_by">Sort Contacts By:</string>
 </resources>
