@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 public class ContactDataSource {
 
@@ -38,9 +39,14 @@ public class ContactDataSource {
             initialValues.put("email", c.getEMail());
             initialValues.put("birthday", String.valueOf(c.getBirthday().getTimeInMillis()));
 
-            didSucceed = database.insert("contact", null, initialValues) > 0;
+            long rowId = database.insert("contact", null, initialValues);
+            if (rowId > 0) {
+                c.setContactID((int) rowId);  // Assign the contact ID after insert
+                didSucceed = true;
+            }
         }
         catch (Exception e){
+           Log.e("DB_ERROR", "error inserting contact", e);
             //Do nothing -- will return false if there is an exception
         }
         return didSucceed;
@@ -73,16 +79,16 @@ public class ContactDataSource {
     }
 
     public int getLastContactID(){
-        int lastId;
-        try{
-            String query = "Select MAX(_id) from contact";
+        int lastId = -1;
+        try {
+            String query = "SELECT MAX(_id) FROM contact";
             Cursor cursor = database.rawQuery(query, null);
-            cursor.moveToFirst();
-            lastId = cursor.getInt(0);
+            if (cursor.moveToFirst() && cursor.getCount() > 0) {
+                lastId = cursor.getInt(0);
+            }
             cursor.close();
-        }
-        catch(Exception e){
-            lastId = -1;
+        } catch (Exception e) {
+            Log.e("DB_ERROR", "Error fetching last contact ID", e);
         }
         return lastId;
     }

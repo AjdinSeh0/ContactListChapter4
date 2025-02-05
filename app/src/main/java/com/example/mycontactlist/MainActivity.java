@@ -115,11 +115,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 catch (Exception e){
                     wasSuccessful = false;
                 }
-                if (wasSuccessful){
-                    ToggleButton editToggle = findViewById(R.id.toggleButton);
-                    editToggle.toggle();
-                    setForEditing(false);
-                }
             }
         });
     }
