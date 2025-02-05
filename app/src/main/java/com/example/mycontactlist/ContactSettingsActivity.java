@@ -55,7 +55,7 @@ public class ContactSettingsActivity extends AppCompatActivity {
     private void initSettingsButton(){
         ImageButton ibSettings = findViewById(R.id.imageButtonSettings);
         ibSettings.setEnabled(false);
-        };
+        }
 
     private void initSettings() {
         String sortBy = getSharedPreferences("MyContactListPreferences",
