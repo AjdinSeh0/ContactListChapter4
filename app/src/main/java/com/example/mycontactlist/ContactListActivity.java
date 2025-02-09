@@ -9,8 +9,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
-public class ContactListActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class    ContactListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +28,18 @@ public class ContactListActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        ContactDataSource ds = new ContactDataSource(this);
+        ArrayList<String> names;
+
+        try{
+            ds.open();
+            names = ds.getContactName();
+            ds.close();
+
+
+        }
+
+
     }
 
     private void initListButton(){
@@ -38,11 +53,8 @@ public class ContactListActivity extends AppCompatActivity {
 
     private void initMapButton(){
         ImageButton ibList = findViewById(R.id.imageButtonMap);
-        ibList.setOnClickListener(v -> {
-            Intent intent = new Intent(ContactListActivity.this, ContactMapActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-        });
+        ibList.setEnabled(false);
+
     }
 
     private void initSettingsButton(){
