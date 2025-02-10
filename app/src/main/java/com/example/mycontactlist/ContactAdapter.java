@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,13 +14,18 @@ import java.util.ArrayList;
 
 public class ContactAdapter extends RecyclerView.Adapter{
     private ArrayList<String> contactData;
+    private View.OnClickListener mOnItemClickListener;
     public class ContactViewHolder extends RecyclerView.ViewHolder{
         public TextView textViewContact;
-        //might not work because of wrong viewCast
-        @SuppressLint("WrongViewCast")
+        public TextView textPhone;
+        public Button deleteButton;
         public ContactViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewContact = itemView.findViewById(R.id.textViewName);
+            textPhone = itemView.findViewById(R.id.textPhoneNumber);
+            deleteButton = itemView.findViewById(R.id.buttonDeleteContact);
+            itemView.setTag(this);
+            itemView.setOnClickListener(mOnItemClickListener);
         }
 
         public TextView getContactTextView(){
@@ -29,6 +35,10 @@ public class ContactAdapter extends RecyclerView.Adapter{
 
     public ContactAdapter(ArrayList<String> arrayList){
         contactData = arrayList;
+    }
+
+    public void setOnItemClickListener(View.OnClickListener itemClickListener){
+        mOnItemClickListener = itemClickListener;
     }
 
 
