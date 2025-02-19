@@ -16,18 +16,28 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class    ContactListActivity extends AppCompatActivity {
-
-    private View.OnClickListener onItemClickListener = new View.OnClickListener(){
+public class ContactListActivity extends AppCompatActivity {
+    private ArrayList<Contact> contacts;
+    private View.OnClickListener onItemClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder)
-                                                    view.getTag();
+            Object tag = view.getTag();
+            if (!(tag instanceof RecyclerView.ViewHolder)) return;
+
+            RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) tag;
             int position = viewHolder.getAdapterPosition();
-            Intent intent = new Intent (ContactListActivity.this, MainActivity.class);
+            if (position == RecyclerView.NO_POSITION || contacts == null || position >= contacts.size()) {
+                return;
+            }
+
+            int contactId = contacts.get(position).getContactID();
+            Intent intent = new Intent(ContactListActivity.this, MainActivity.class);
+            intent.putExtra("contactID", contactId);
             startActivity(intent);
         }
     };
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,30 +46,31 @@ public class    ContactListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_contact_list);
         initSettingsButton();
         initMapButton();
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        ContactDataSource ds = new ContactDataSource(this);
-        ArrayList<String> names;
 
-        try{
+        ContactDataSource ds = new ContactDataSource(this);
+        try {
             ds.open();
-            names = ds.getContactName();
+            contacts = ds.getContacts();
             ds.close();
+
             RecyclerView contactList = findViewById(R.id.rvContacts);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
             contactList.setLayoutManager(layoutManager);
-            ContactAdapter contactAdapter = new ContactAdapter(names);
+
+            ContactAdapter contactAdapter = new ContactAdapter(contacts);
+            contactAdapter.setOnItemClickListener(onItemClickListener);
             contactList.setAdapter(contactAdapter);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             Toast.makeText(this, "Error retrieving contacts", Toast.LENGTH_LONG).show();
         }
-
-
     }
+
 
 
 

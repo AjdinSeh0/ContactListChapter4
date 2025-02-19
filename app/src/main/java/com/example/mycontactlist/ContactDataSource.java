@@ -133,7 +133,7 @@ public class ContactDataSource {
                 newContact.setState(cursor.getString(4));
                 newContact.setZipCode(cursor.getString(5));
                 //this is definetley going to cause errors
-                newContact.setPhoneNumber(cursor.getString(Integer.parseInt(cursor.getString(6))));
+                newContact.setPhoneNumber(cursor.getString(6));
                 newContact.setCellNumber(cursor.getString(7));
                 newContact.setEMail(cursor.getString(8));
                 Calendar calendar = Calendar.getInstance();
