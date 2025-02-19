@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.activity.EdgeToEdge;
@@ -48,7 +49,17 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         });
         initChangeDateButton();
-        currentContact = new Contact();
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            int receivedContactId = extras.getInt("contactID");
+            System.out.println(" Received contactID: " + receivedContactId);
+            initContact(receivedContactId);
+        } else {
+            System.out.println("No contactID received!");
+            currentContact = new Contact();
+        }
+
     }
 
     private void initListButton(){
@@ -292,7 +303,39 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         imm.hideSoftInputFromWindow(editEMail.getWindowToken(), 0);
     }
 
+    private void initContact(int id){
 
+        ContactDataSource ds = new ContactDataSource(MainActivity.this);
+        try{
+            ds.open();
+            currentContact = ds.getSpecificContact(id);
+            ds.close();
+        }
+        catch (Exception e){
+            Toast.makeText(this, "Load Contact Failed", Toast.LENGTH_LONG).show();
+        }
 
+        EditText editName = findViewById(R.id.editName);
+        EditText editAddress = findViewById(R.id.editAddress);
+        EditText editCity = findViewById(R.id.editCity);
+        EditText editState = findViewById(R.id.editState);
+        EditText editZipCode = findViewById(R.id.editZipCode);
+        EditText editPhone = findViewById(R.id.editHome);
+        EditText editCell = findViewById(R.id.editCell);
+        EditText editEmail = findViewById(R.id.editEMail);
+        TextView birthDay = findViewById(R.id.textBirthday);
 
+        editName.setText(currentContact.getContactName());
+        editAddress.setText(currentContact.getStreetAddress());
+        editCity.setText(currentContact.getCity());
+        editState.setText(currentContact.getState());
+        editZipCode.setText(currentContact.getZipCode());
+
+        editPhone.setText(currentContact.getPhoneNumber());
+        editCell.setText(currentContact.getCellNumber());
+        editEmail.setText(currentContact.getEMail());
+        birthDay.setText(DateFormat.format("MM/dd/yyyy",
+                currentContact.getBirthday().getTimeInMillis()).toString());
+
+    }
 }
