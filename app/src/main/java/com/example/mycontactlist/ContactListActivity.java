@@ -1,9 +1,13 @@
 package com.example.mycontactlist;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -18,6 +22,7 @@ import java.util.ArrayList;
 
 public class ContactListActivity extends AppCompatActivity {
     private ArrayList<Contact> contacts;
+    private ContactAdapter contactAdapter;
     private View.OnClickListener onItemClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -44,8 +49,10 @@ public class ContactListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_contact_list);
+
         initSettingsButton();
         initMapButton();
+        initAddContactButton();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -53,25 +60,42 @@ public class ContactListActivity extends AppCompatActivity {
             return insets;
         });
 
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        String sortBy = getSharedPreferences("MyContactListPreferences",
+                Context.MODE_PRIVATE).getString("sortfield", "contactname");
+        String sortOrder = getSharedPreferences("MyContactListPreferences",
+                Context.MODE_PRIVATE).getString("sortorder", "ASC");
+
         ContactDataSource ds = new ContactDataSource(this);
         try {
             ds.open();
-            contacts = ds.getContacts();
+            contacts = ds.getContacts(sortBy, sortOrder);
             ds.close();
+            if(contacts.size() > 0) {
+                RecyclerView contactList = findViewById(R.id.rvContacts);
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+                contactList.setLayoutManager(layoutManager);
 
-            RecyclerView contactList = findViewById(R.id.rvContacts);
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-            contactList.setLayoutManager(layoutManager);
+                contactAdapter = new ContactAdapter(contacts, this);
+                contactList.setAdapter(contactAdapter);
+                initDeleteSwitch();
+            }
+            else{
+                Intent intent = new Intent(ContactListActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
 
-            ContactAdapter contactAdapter = new ContactAdapter(contacts);
-            contactAdapter.setOnItemClickListener(onItemClickListener);
-            contactList.setAdapter(contactAdapter);
+
         } catch (Exception e) {
             Toast.makeText(this, "Error retrieving contacts", Toast.LENGTH_LONG).show();
         }
+
     }
-
-
 
 
     private void initMapButton(){
@@ -88,4 +112,28 @@ public class ContactListActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
+
+    private void initAddContactButton(){
+        Button newContact = findViewById(R.id.buttonAddContact);
+        newContact.setOnClickListener(v -> {
+            Intent intent = new Intent(ContactListActivity.this, MainActivity.class);
+            startActivity(intent);
+        });
+    }
+
+    private void initDeleteSwitch() {
+        Switch s = findViewById(R.id.switchDelete);
+        s.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+            if (contactAdapter != null) {
+                contactAdapter.setDelete(isChecked);
+                contactAdapter.notifyDataSetChanged();
+                System.out.println(" Delete Mode: " + isChecked);
+            } else {
+                System.out.println(" contactAdapter is NULL! Delete switch does nothing.");
+            }
+        });
+    }
+
+
+
 }
