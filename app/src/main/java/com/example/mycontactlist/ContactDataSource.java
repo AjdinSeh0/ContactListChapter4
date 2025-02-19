@@ -102,7 +102,7 @@ public class ContactDataSource {
             Cursor cursor = database.rawQuery(query, null);
 
             cursor.moveToFirst();
-            while (!cursor.isAfterLast());{
+            while (!cursor.isAfterLast()){
                 contactNames.add(cursor.getString(0));
                 cursor.moveToNext();
             }
