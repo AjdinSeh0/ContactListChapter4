@@ -17,6 +17,7 @@ public class ContactAdapter extends RecyclerView.Adapter{
     private View.OnClickListener mOnItemClickListener;
     public class ContactViewHolder extends RecyclerView.ViewHolder{
         public TextView textViewContact;
+
         public TextView textPhone;
         public Button deleteButton;
         public ContactViewHolder(@NonNull View itemView) {

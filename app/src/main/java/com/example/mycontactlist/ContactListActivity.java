@@ -2,6 +2,7 @@ package com.example.mycontactlist;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -16,6 +17,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class    ContactListActivity extends AppCompatActivity {
+
+    private View.OnClickListener onItemClickListener = new View.OnClickListener(){
+        @Override
+        public void onClick(View view) {
+            RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder)
+                                                    view.getTag();
+            int position = viewHolder.getAdapterPosition();
+            Intent intent = new Intent (ContactListActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
