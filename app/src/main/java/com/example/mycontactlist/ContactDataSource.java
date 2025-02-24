@@ -50,7 +50,7 @@ public class ContactDataSource {
         }
         catch (Exception e){
            Log.e("DB_ERROR", "error inserting contact", e);
-            //Do nothing -- will return false if there is an exception
+            //Do nothing
         }
         return didSucceed;
     }
@@ -182,7 +182,7 @@ public class ContactDataSource {
             didDelete = database.delete("contact", "_id=" + contactId, null) > 0;
         }
         catch (Exception e){
-
+// nothin. here
         }
         return didDelete;
     }

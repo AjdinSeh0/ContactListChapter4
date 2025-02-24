@@ -32,11 +32,13 @@ public class ContactAdapter extends RecyclerView.Adapter{
         public TextView textViewContact;
 
         public TextView textPhone;
+        public TextView textEmail;
         public Button deleteButton;
         public ContactViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewContact = itemView.findViewById(R.id.textContactName);
             textPhone = itemView.findViewById(R.id.textPhoneNumber);
+            textEmail = itemView.findViewById(R.id.textEMail);
             deleteButton = itemView.findViewById(R.id.buttonDeleteContact);
 
             itemView.setOnClickListener(mOnItemClickListener);
@@ -44,6 +46,10 @@ public class ContactAdapter extends RecyclerView.Adapter{
 
         public TextView getPhoneTextView(){
             return textPhone;
+        }
+
+        public TextView getEmailTextView(){
+            return textEmail;
         }
 
         public Button getDeleteButton(){
@@ -63,7 +69,6 @@ public class ContactAdapter extends RecyclerView.Adapter{
         mOnItemClickListener = itemClickListener;
     }
 
-
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -77,6 +82,7 @@ public class ContactAdapter extends RecyclerView.Adapter{
         Contact contact = contactData.get(position);
         cvh.getContactTextView().setText(contact.getContactName());
         cvh.getPhoneTextView().setText(contact.getPhoneNumber());
+        cvh.getEmailTextView().setText(contact.getEMail());
         cvh.itemView.setTag(cvh);
 
         if(isDeleting){
@@ -97,7 +103,7 @@ public class ContactAdapter extends RecyclerView.Adapter{
 
     private void deleteItem(int position) {
         Contact contact = contactData.get(position);
-        ContactDataSource ds = new ContactDataSource(parentContext); // ✅ Use parentContext
+        ContactDataSource ds = new ContactDataSource(parentContext);
         try {
             ds.open();
             boolean didDelete = ds.deleteContact(contact.getContactID());
@@ -114,8 +120,6 @@ public class ContactAdapter extends RecyclerView.Adapter{
             Toast.makeText(parentContext, "Error Deleting Contact!", Toast.LENGTH_SHORT).show();
         }
     }
-
-
 
     @Override
     public int getItemCount() {
