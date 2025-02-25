@@ -96,4 +96,6 @@ public class Contact {
     public void setContactName(String contactName) {
         this.contactName = contactName;
     }
+
+
 }
