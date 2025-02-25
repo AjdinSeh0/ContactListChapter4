@@ -1,25 +1,38 @@
 package com.example.mycontactlist;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.List;
 
 public class ContactMapActivity extends AppCompatActivity {
+    LocationManager locationManager;
+    LocationListener gpsListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,38 +82,47 @@ public class ContactMapActivity extends AppCompatActivity {
         locationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText editAddress = (EditText) findViewById(R.id.editAddress);
-                EditText editCity = (EditText) findViewById(R.id.editCity);
-                EditText editState = (EditText) findViewById(R.id.editState);
-                EditText editZipCode = (EditText) findViewById(R.id.editZipCode);
-
-                String address = editAddress.getText().toString() + ", " +
-                                    editCity.getText().toString() + ", " +
-                                    editState.getText().toString() + ", " +
-                                    editZipCode.getText().toString();
-
-                List<Address> addresses = null;
-                Geocoder geo = new Geocoder(ContactMapActivity.this);
                 try{
-                    addresses = geo.getFromLocationName(address, 1);
-                }
-                catch (IOException e){
-                    e.printStackTrace();
-                }
-                TextView txtLatitude = (TextView) findViewById(R.id.textLatitude);
-                TextView txtLongitude = (TextView) findViewById(R.id.textLongitude);
+                locationManager = (LocationManager)getBaseContext().
+                                        getSystemService(Context.LOCATION_SERVICE);
+                gpsListener = new LocationListener() {
+                    @Override
+                    public void onLocationChanged(@NonNull Location location) {
+                        TextView txtLatitude = (TextView) findViewById(R.id.textLatitude);
+                        TextView txtLongitude = (TextView) findViewById(R.id.textLongitude);
+                        TextView txtAccuracy = (TextView) findViewById(R.id.textAccuracy);
+                        txtLatitude.setText(String.valueOf(location.getLatitude()));
+                        txtLongitude.setText(String.valueOf(location.getLongitude()));
+                        txtAccuracy.setText(String.valueOf(location.getAccuracy()));
+                    }
 
-                txtLatitude.setText(String.valueOf(addresses.get(0).getLatitude()));
-                txtLongitude.setText(String.valueOf(addresses.get(0).getLongitude()));
+                    public void onStatusChanged(String provider, int status, Bundle extras) {}
+                    public void onProviderEnabled(String provider) {}
+                    public void onProviderDisabled(String provider){}
+                };
 
+
+                locationManager.requestLocationUpdates(
+                        LocationManager.GPS_PROVIDER, 0, 0, gpsListener);
+            }
+                catch (Exception e){
+                    Toast.makeText(getBaseContext(), "Error, Location not available",
+                            Toast.LENGTH_LONG).show();
+                }
             }
         });
-
-
-
     }
 
-
+    @Override
+    public void onPause(){
+        super.onPause();
+        try{
+            locationManager.removeUpdates(gpsListener);
+        }
+        catch (Exception e){
+            Log.d("ERROR", "SOMETHING WENT WRONG");
+        }
+    }
 
 
 }
