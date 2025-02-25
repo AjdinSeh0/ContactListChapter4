@@ -52,7 +52,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextAddress"
+        android:id="@+id/editAddress"
         android:layout_width="356dp"
         android:layout_height="46dp"
         android:layout_marginStart="16dp"
@@ -65,7 +65,7 @@
         tools:ignore="TouchTargetSizeCheck" />
 
     <EditText
-        android:id="@+id/editTextCity"
+        android:id="@+id/editCity"
         android:layout_width="147dp"
         android:layout_height="46dp"
         android:layout_marginStart="16dp"
@@ -74,11 +74,11 @@
         android:hint="@string/city"
         android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextAddress"
+        app:layout_constraintTop_toBottomOf="@+id/editAddress"
         tools:ignore="TouchTargetSizeCheck" />
 
     <EditText
-        android:id="@+id/editTextText3"
+        android:id="@+id/editState"
         android:layout_width="56dp"
         android:layout_height="48dp"
         android:layout_marginStart="8dp"
@@ -86,11 +86,11 @@
         android:ems="10"
         android:hint="@string/state"
         android:inputType="text"
-        app:layout_constraintStart_toEndOf="@+id/editTextCity"
-        app:layout_constraintTop_toBottomOf="@+id/editTextAddress" />
+        app:layout_constraintStart_toEndOf="@+id/editCity"
+        app:layout_constraintTop_toBottomOf="@+id/editAddress" />
 
     <EditText
-        android:id="@+id/editTextText4"
+        android:id="@+id/editZipCode"
         android:layout_width="139dp"
         android:layout_height="49dp"
         android:layout_marginStart="8dp"
@@ -98,8 +98,8 @@
         android:ems="10"
         android:hint="@string/zipcode"
         android:inputType="text"
-        app:layout_constraintStart_toEndOf="@+id/editTextText3"
-        app:layout_constraintTop_toBottomOf="@+id/editTextAddress" />
+        app:layout_constraintStart_toEndOf="@+id/editState"
+        app:layout_constraintTop_toBottomOf="@+id/editAddress" />
 
     <Button
         android:id="@+id/buttonGetLocation"
@@ -109,7 +109,7 @@
         android:layout_marginTop="32dp"
         android:text="GET COORDINATES"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextCity" />
+        app:layout_constraintTop_toBottomOf="@+id/editCity" />
 
     <TextView
         android:id="@+id/textView5"

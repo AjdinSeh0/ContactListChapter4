@@ -3,7 +3,6 @@ package com.example.mycontactlist;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -181,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
             }
         });
-        final EditText etZipCode = findViewById(R.id.editZipCode);
+        final EditText etZipCode = findViewById(R.id.editState);
         etZipCode.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s){
                 currentContact.setZipCode(etZipCode.getText().toString());
@@ -238,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         EditText editAddress = findViewById(R.id.editAddress);
         EditText editCity = findViewById(R.id.editCity);
         EditText editState = findViewById(R.id.editState);
-        EditText editZipCode = findViewById(R.id.editZipCode);
+        EditText editZipCode = findViewById(R.id.editState);
         EditText editPhone = findViewById(R.id.editHome);
         EditText editCell = findViewById(R.id.editCell);
         EditText editEmail = findViewById(R.id.editEMail);
@@ -293,7 +292,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         imm.hideSoftInputFromWindow(editCity.getWindowToken(), 0);
         EditText editState = findViewById(R.id.editState);
         imm.hideSoftInputFromWindow(editState.getWindowToken(), 0);
-        EditText editZip = findViewById(R.id.editZipCode);
+        EditText editZip = findViewById(R.id.editState);
         imm.hideSoftInputFromWindow(editZip.getWindowToken(), 0);
         EditText editHome = findViewById(R.id.editHome);
         imm.hideSoftInputFromWindow(editHome.getWindowToken(), 0);
@@ -319,7 +318,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         EditText editAddress = findViewById(R.id.editAddress);
         EditText editCity = findViewById(R.id.editCity);
         EditText editState = findViewById(R.id.editState);
-        EditText editZipCode = findViewById(R.id.editZipCode);
+        EditText editZipCode = findViewById(R.id.editState);
         EditText editPhone = findViewById(R.id.editHome);
         EditText editCell = findViewById(R.id.editCell);
         EditText editEmail = findViewById(R.id.editEMail);
