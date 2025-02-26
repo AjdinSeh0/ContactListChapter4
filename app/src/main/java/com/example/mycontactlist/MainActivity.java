@@ -75,8 +75,14 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         ImageButton ibList = findViewById(R.id.imageButtonMap);
         ibList.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, ContactMapActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+                if(currentContact.getContactID() == 1){
+                    Toast.makeText(getBaseContext(), "Contactt must be saved before it can be mapped", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    intent.putExtra("currentid", currentContact.getContactID());
+                }
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
         });
     }
 

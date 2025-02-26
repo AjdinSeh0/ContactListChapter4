@@ -9,9 +9,10 @@ activity = "1.10.0"
 constraintlayout = "2.2.0"
 
 # ✅ Update Play Services versions
-playServicesLocation = "21.0.1"  # Location services
-playServicesMaps = "18.2.0"  # Google Maps SDK
-playServicesAuth = "20.7.0"  # Google Sign-In (optional)
+playServicesLocation = "21.3.0"  # Location services
+playServicesMaps = "19.1.0"  # Google Maps SDK
+playServicesAuth = "21.3.0"
+multidex = "1.0.3"  # Google Sign-In (optional)
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -26,6 +27,7 @@ constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayo
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
 play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
 play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "playServicesAuth" }
+multidex = { group = "com.android.support", name = "multidex", version.ref = "multidex" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

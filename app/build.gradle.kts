@@ -14,6 +14,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled = true
     }
 
     buildTypes {
@@ -46,8 +48,10 @@ dependencies {
     implementation(libs.play.services.maps) {
         exclude(group = "com.android.support")
     }
+    implementation(libs.multidex)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
 }
