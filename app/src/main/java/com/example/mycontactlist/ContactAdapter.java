@@ -2,6 +2,7 @@ package com.example.mycontactlist;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,6 +82,12 @@ public class ContactAdapter extends RecyclerView.Adapter{
         ContactViewHolder cvh = (ContactViewHolder) holder;
         Contact contact = contactData.get(position);
         cvh.getContactTextView().setText(contact.getContactName());
+        if (position % 2 ==0){
+            cvh.textViewContact.setTextColor(Color.RED);
+        }
+        else{
+            cvh.textViewContact.setTextColor(Color.BLUE);
+        }
         cvh.getPhoneTextView().setText(contact.getPhoneNumber());
         cvh.getEmailTextView().setText(contact.getEMail());
         cvh.itemView.setTag(cvh);
@@ -111,8 +118,8 @@ public class ContactAdapter extends RecyclerView.Adapter{
             if (didDelete) {
                 contactData.remove(position);
                 notifyDataSetChanged();
-                Toast.makeText(parentContext, "Deleted: " + contact.getContactName(), Toast.LENGTH_SHORT).show(); // ✅ Fix
-                System.out.println("Deleted: " + contact.getContactName()); // Debugging
+                Toast.makeText(parentContext, "Deleted: " + contact.getContactName(), Toast.LENGTH_SHORT).show();
+                System.out.println("Deleted: " + contact.getContactName());
             } else {
                 Toast.makeText(parentContext, "Delete Failed!", Toast.LENGTH_SHORT).show();
             }

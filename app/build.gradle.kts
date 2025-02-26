@@ -32,11 +32,16 @@ android {
 }
 
 dependencies {
-
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+
+    // ✅ Use only the required Play Services modules
+    implementation(libs.play.services.location)  // If you need location services
+    implementation(libs.play.services.maps)  // If you need Google Maps
+    implementation(libs.play.services.auth)  // If you need Google Sign-In
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

@@ -8,6 +8,11 @@ material = "1.12.0"
 activity = "1.10.0"
 constraintlayout = "2.2.0"
 
+# ✅ Use the correct Play Services modules instead of `play-services`
+playServicesLocation = "21.0.1"  # Location services
+playServicesMaps = "18.2.0"  # Google Maps
+playServicesAuth = "20.7.0"  # Google Sign-In (if needed)
+
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -17,5 +22,11 @@ material = { group = "com.google.android.material", name = "material", version.r
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 
+# ✅ Corrected Play Services dependencies (only use what you need)
+play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
+play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
+play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "playServicesAuth" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
+
