@@ -20,6 +20,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -106,6 +108,7 @@ public class ContactMapActivity extends AppCompatActivity implements OnMapReadyC
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        initMapTypeButtons();
 
     }
 
@@ -238,6 +241,9 @@ public class ContactMapActivity extends AppCompatActivity implements OnMapReadyC
         gMap = googleMap;
         gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
+        RadioButton rbNormal = findViewById(R.id.radioButtonNormal);
+        rbNormal.setChecked(true);
+
         Point size = new Point();
         WindowManager w = getWindowManager();
         w.getDefaultDisplay().getSize(size);
@@ -316,6 +322,21 @@ public class ContactMapActivity extends AppCompatActivity implements OnMapReadyC
 
 
         requestLocationPermission();
+    }
+
+    private void initMapTypeButtons() {
+        RadioGroup rgMapType = findViewById(R.id.radioGroupMapType);
+
+        rgMapType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                RadioButton rbNormal = findViewById(R.id.radioButtonNormal);
+                if (rbNormal.isChecked()) {
+                    gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                } else {
+                    gMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                }
+            }
+        });
     }
 
 
