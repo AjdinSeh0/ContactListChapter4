@@ -32,11 +32,21 @@ android {
 }
 
 dependencies {
-
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+
+    // ✅ Correct Play Services dependencies for Google Maps
+    implementation(libs.play.services.location)  // Location services for GPS tracking
+    implementation(libs.play.services.maps)  // Google Maps SDK
+    implementation(libs.play.services.auth)  // Google Sign-In (if needed)
+
+    // ✅ Exclude old Android support library to avoid duplicate class errors
+    implementation(libs.play.services.maps) {
+        exclude(group = "com.android.support")
+    }
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
