@@ -3,6 +3,7 @@ package com.example.mycontactlist;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +21,8 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -40,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     private Contact currentContact;
     final int PERMISSION_REQUEST_PHONE = 102;
     final int PERMISSION_REQUEST_CAMERA = 103;
+    final int CAMERA_REQUEST = 1888;
+    private ActivityResultLauncher<Intent> cameraLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +77,21 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             System.out.println("No contactID received!");
             currentContact = new Contact();
         }
+
+
+        cameraLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                        Bitmap photo = (Bitmap) result.getData().getExtras().get("data");
+                        Bitmap scaledPhoto = Bitmap.createScaledBitmap(photo, 144, 144, true);
+                        ImageButton imageContact = findViewById(R.id.imageContact);
+                        imageContact.setImageBitmap(scaledPhoto);
+                        currentContact.setPicture(scaledPhoto);
+                    }
+                }
+        );
+
 
     }
 
@@ -349,6 +369,14 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         EditText editEmail = findViewById(R.id.editEMail);
         TextView birthDay = findViewById(R.id.textBirthday);
 
+        ImageButton picture = (ImageButton) findViewById(R.id.imageContact);
+        if(currentContact.getPicture() != null){
+            picture.setImageBitmap(currentContact.getPicture());
+        }
+        else{
+            picture.setImageResource(R.drawable.photoicon);
+        }
+
         editName.setText(currentContact.getContactName());
         editAddress.setText(currentContact.getStreetAddress());
         editCity.setText(currentContact.getCity());
@@ -491,6 +519,24 @@ private void initCallFunction(){
                 }
             }
         });
+    }
+
+    public void takePhoto() {
+        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraLauncher.launch(cameraIntent);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && data != null) {
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            Bitmap scaledPhoto = Bitmap.createScaledBitmap(photo, 144, 144, true);
+            ImageButton imageContact = findViewById(R.id.imageContact);
+            imageContact.setImageBitmap(scaledPhoto);
+            currentContact.setPicture(scaledPhoto);
+        }
     }
 
 
