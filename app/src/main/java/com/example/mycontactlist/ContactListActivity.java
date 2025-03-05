@@ -27,7 +27,7 @@ import java.util.ArrayList;
 public class ContactListActivity extends AppCompatActivity {
     private ArrayList<Contact> contacts;
     private ContactAdapter contactAdapter;
-    private View.OnClickListener onItemClickListener = new View.OnClickListener() {
+     View.OnClickListener onItemClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             Object tag = view.getTag();
@@ -96,7 +96,7 @@ public class ContactListActivity extends AppCompatActivity {
             ds.open();
             contacts = ds.getContacts(sortBy, sortOrder);
             ds.close();
-            if(contacts.size() > 0) {
+            if(!contacts.isEmpty()) {
                 RecyclerView contactList = findViewById(R.id.rvContacts);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
                 contactList.setLayoutManager(layoutManager);
