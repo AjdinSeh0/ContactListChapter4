@@ -101,6 +101,7 @@ public class ContactListActivity extends AppCompatActivity {
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
                 contactList.setLayoutManager(layoutManager);
 
+
                 contactAdapter = new ContactAdapter(contacts, this);
                 contactList.setAdapter(contactAdapter);
                 initDeleteSwitch();
