@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     private Contact currentContact;
     final int PERMISSION_REQUEST_PHONE = 102;
+    final int PERMISSION_REQUEST_CAMERA = 103;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         });
         initChangeDateButton();
         initCallFunction();
+        initImageButton();
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -261,12 +263,14 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         EditText editEmail = findViewById(R.id.editEMail);
         Button buttonChange = findViewById(R.id.btnBirthday);
         Button buttonSave = findViewById(R.id.ButtonSave);
+        ImageButton picture = findViewById(R.id.imageContact);
 
         editName.setEnabled(enabled);
         editAddress.setEnabled(enabled);
         editCity.setEnabled(enabled);
         editState.setEnabled(enabled);
         editZipCode.setEnabled(enabled);
+        picture.setEnabled(enabled);
 
         editEmail.setEnabled(enabled);
         buttonChange.setEnabled(enabled);
@@ -423,6 +427,16 @@ private void initCallFunction(){
                             "from this app", Toast.LENGTH_LONG).show();
                 }
             }
+            case PERMISSION_REQUEST_CAMERA: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    takePhoto();
+                } else {
+                    Toast.makeText(MainActivity.this, "You will not be able to save "
+                            + "contact pictures from this app", Toast.LENGTH_LONG).show();
+                }
+                return;
+            }
+
         }
     }
 
@@ -437,6 +451,46 @@ private void initCallFunction(){
         } else {
             startActivity(intent);
         }
+    }
+
+    private void initImageButton() {
+        ImageButton ib = findViewById(R.id.imageContact);
+        ib.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Build.VERSION.SDK_INT >= 23) {
+                    if (ContextCompat.checkSelfPermission(MainActivity.this,
+                            android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(
+                                MainActivity.this, android.Manifest.permission.CAMERA)) {
+
+                            Snackbar.make(findViewById(R.id.activity_main),
+                                            "The app needs permission to take pictures.",
+                                            Snackbar.LENGTH_INDEFINITE)
+                                    .setAction("OK", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            ActivityCompat.requestPermissions(
+                                                    MainActivity.this,
+                                                    new String[]{android.Manifest.permission.CAMERA},
+                                                    PERMISSION_REQUEST_CAMERA);
+                                        }
+                                    }).show();
+                        } else {
+                            ActivityCompat.requestPermissions(
+                                    MainActivity.this,
+                                    new String[]{android.Manifest.permission.CAMERA},
+                                    PERMISSION_REQUEST_CAMERA);
+                        }
+                    } else {
+                        takePhoto();
+                    }
+                } else {
+                    takePhoto();
+                }
+            }
+        });
     }
 
 
