@@ -1,13 +1,10 @@
 package com.example.mycontactlist;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,24 +13,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class ContactAdapter extends RecyclerView.Adapter{
+public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactViewHolder> {
     private ArrayList<Contact> contactData;
     private View.OnClickListener mOnItemClickListener;
-
     private boolean isDeleting;
-
     private Context parentContext;
 
-    public ContactAdapter(ArrayList<Contact> arrayList, Context context){
+    public ContactAdapter(ArrayList<Contact> arrayList, Context context, View.OnClickListener itemClickListener) {
         this.parentContext = context;
-        contactData = arrayList;
+        this.contactData = arrayList;
+        this.mOnItemClickListener = itemClickListener; // ✅ Ensure listener is assigned
     }
-    public class ContactViewHolder extends RecyclerView.ViewHolder{
-        public TextView textViewContact;
 
+    public class ContactViewHolder extends RecyclerView.ViewHolder {
+        public TextView textViewContact;
         public TextView textPhone;
         public TextView textEmail;
         public Button deleteButton;
+
         public ContactViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewContact = itemView.findViewById(R.id.textContactName);
@@ -41,62 +38,38 @@ public class ContactAdapter extends RecyclerView.Adapter{
             textEmail = itemView.findViewById(R.id.textEMail);
             deleteButton = itemView.findViewById(R.id.buttonDeleteContact);
 
+            // ✅ Attach the listener here
             itemView.setOnClickListener(mOnItemClickListener);
         }
-
-        public TextView getPhoneTextView(){
-            return textPhone;
-        }
-
-        public TextView getEmailTextView(){
-            return textEmail;
-        }
-
-        public Button getDeleteButton(){
-            return deleteButton;
-        }
-
-        public TextView getContactTextView(){
-            return textViewContact;
-        }
-    }
-
-    public ContactAdapter(ArrayList<Contact> arrayList){
-        this.contactData = arrayList;
-    }
-
-    public void setOnItemClickListener(View.OnClickListener itemClickListener){
-        mOnItemClickListener = itemClickListener;
     }
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ContactViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
         return new ContactViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder,final int position) {
-        ContactViewHolder cvh = (ContactViewHolder) holder;
+    public void onBindViewHolder(@NonNull ContactViewHolder holder, final int position) {
         Contact contact = contactData.get(position);
-        cvh.getContactTextView().setText(contact.getContactName());
-        cvh.getPhoneTextView().setText(contact.getPhoneNumber());
-        cvh.getEmailTextView().setText(contact.getEMail());
-        cvh.itemView.setTag(cvh);
+        holder.textViewContact.setText(contact.getContactName());
+        holder.textPhone.setText(contact.getPhoneNumber());
+        holder.textEmail.setText(contact.getEMail());
 
-        if(isDeleting){
-            cvh.getDeleteButton().setVisibility(View.VISIBLE);
-            cvh.getDeleteButton().setOnClickListener(v ->{
-                deleteItem(position);
-            });
-        }
-        else{
-            cvh.getDeleteButton().setVisibility(View.INVISIBLE);
+        // ✅ Ensure the click listener is correctly assigned
+        holder.itemView.setTag(contact);
+        holder.itemView.setOnClickListener(mOnItemClickListener);
+
+        if (isDeleting) {
+            holder.deleteButton.setVisibility(View.VISIBLE);
+            holder.deleteButton.setOnClickListener(v -> deleteItem(position));
+        } else {
+            holder.deleteButton.setVisibility(View.INVISIBLE);
         }
     }
 
-    public void setDelete(boolean b){
+    public void setDelete(boolean b) {
         isDeleting = b;
         notifyDataSetChanged();
     }
@@ -111,8 +84,7 @@ public class ContactAdapter extends RecyclerView.Adapter{
             if (didDelete) {
                 contactData.remove(position);
                 notifyDataSetChanged();
-                Toast.makeText(parentContext, "Deleted: " + contact.getContactName(), Toast.LENGTH_SHORT).show(); // ✅ Fix
-                System.out.println("Deleted: " + contact.getContactName()); // Debugging
+                Toast.makeText(parentContext, "Deleted: " + contact.getContactName(), Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(parentContext, "Delete Failed!", Toast.LENGTH_SHORT).show();
             }
